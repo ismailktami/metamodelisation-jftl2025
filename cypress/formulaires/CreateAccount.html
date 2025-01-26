@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Créer un compte</title>
+  <style>
+    h1 {
+      text-align: center;
+      margin-bottom: 0px;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      line-height: 1.6;
+    }
+    form {
+      max-width: 300px;
+      margin: 0 auto; /* Centrer le formulaire */
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      box-sizing: border-box; /* Inclure le padding et la bordure dans la largeur */
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input,
+    select,
+    button {
+      width: 100%;
+      margin-bottom: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+    .error-msg {
+      color: red;
+      font-size: 13px;
+      margin-bottom: 10px;
+      display: none; /* Caché par défaut */
+    }
+    button {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    button:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>Créer un compte</h1>
+
+<form id="userCreationForm" novalidate>
+  <!-- Champ Nom -->
+  <label for="firstName">Nom</label>
+  <input
+    type="text"
+    id="firstName"
+    name="firstName"
+    placeholder="Entrez votre nom"
+    required
+  />
+  <span class="error-msg" id="firstNameError">
+    Veuillez entrer votre nom.
+  </span>
+
+  <!-- Champ Prénom -->
+  <label for="lastName">Prénom</label>
+  <input
+    type="text"
+    id="lastName"
+    name="lastName"
+    pattern="^[A-Z][a-z]{1,50}$"
+    placeholder="Entrez votre prénom"
+    required
+  />
+  <span class="error-msg" id="lastNameError">
+    Veuillez entrer votre prénom.
+  </span>
+
+  <!-- Champ Genre -->
+  <label for="gender">Genre</label>
+  <select id="gender" name="gender" required>
+      <option value="">-- Sélectionnez un genre --</option>
+      <option value="Male">Homme</option>
+      <option value="Female">Femme</option>
+      <option value="Other">Autre</option>
+  </select>
+  <span class="error-msg" id="genderError">
+    Veuillez sélectionner un genre.
+  </span>
+
+  <!-- Champ Âge -->
+  <label for="age">Âge</label>
+  <input
+    type="number"
+    id="age"
+    name="age"
+    placeholder="Entrez votre âge"
+    min="18"
+    max="100"
+    pattern="^(1[4-9]|[2-9]\\d|100)$"
+    required
+  />
+  <span class="error-msg" id="ageError">
+    Âge invalide (14-100).
+  </span>
+
+  <!-- Champ Nom d'utilisateur -->
+  <label for="username">Nom d'utilisateur</label>
+  <input
+    type="text"
+    id="username"
+    name="username"
+    placeholder="Entrez un nom d'utilisateur"
+    required
+  />
+  <span class="error-msg" id="usernameError">
+    Veuillez entrer un nom d'utilisateur.
+  </span>
+
+  <!-- Champ E-mail -->
+  <label for="email">Adresse e-mail</label>
+  <input
+    type="email"
+    id="email"
+    name="email"
+    placeholder="Entrez une adresse e-mail valide"
+    pattern="^[a-z0-9._%+-]{1,9}@[a-z0-9-]{1,9}\\.[a-z]{2,}$"
+    required
+  />
+  <span class="error-msg" id="emailError">
+    Veuillez saisir une adresse e-mail valide.
+  </span>
+
+  <!-- Champ Mot de passe -->
+  <label for="password">Mot de passe</label>
+  <input
+    type="password"
+    id="password"
+    name="password"
+    placeholder="Entrez un mot de passe"
+    pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[@$!%*?&#])[A-Za-z0-9@$!%*?&#]{8,}$"
+    required
+  />
+  <span class="error-msg" id="passwordError">
+    Le mot de passe doit contenir au moins 8 caractères, dont
+    1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial.
+  </span>
+
+  <!-- Boutons -->
+  <button
+    type="submit"
+    id="create-account-btn"
+    data-testid="create-account-btn"
+    disabled
+  >
+    Créer un compte
+  </button>
+  <button
+    type="reset"
+    id="reset-btn"
+    data-testid="reset-btn"
+    disabled
+  >
+    Réinitialiser
+  </button>
+</form>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('userCreationForm');
+    const fields = form.querySelectorAll('input, select');
+    const createAccountBtn = document.getElementById('create-account-btn');
+    const resetBtn = document.getElementById('reset-btn');
+
+    // Pour suivre si l'utilisateur a déjà "touché" un champ
+    const touchedFields = {};
+
+    // Mise à jour de l'affichage des erreurs
+    function showOrHideError(field) {
+      const errorSpan = document.getElementById(field.id + 'Error');
+      if (!errorSpan) return;
+
+      // Afficher l'erreur seulement si :
+      // - l'utilisateur a déjà interagi ("touchedFields[field.id]")
+      // - et le champ est invalide
+      if (touchedFields[field.id] && !field.validity.valid) {
+        errorSpan.style.display = 'block';
+      } else {
+        errorSpan.style.display = 'none';
+      }
+    }
+
+    // Mettre à jour l'état des boutons
+    function updateButtonsState() {
+      let allValid = true;
+      let anyFilled = false;
+
+      fields.forEach(field => {
+        if (field.type === 'submit' || field.type === 'reset') return;
+
+        const isFilled = field.value.trim().length > 0;
+        if (isFilled) anyFilled = true;
+
+        if (!field.checkValidity()) {
+          allValid = false;
+        }
+
+        // Mettre à jour le message d'erreur champ par champ
+        showOrHideError(field);
+      });
+
+      createAccountBtn.disabled = !allValid;
+      resetBtn.disabled = !anyFilled;
+    }
+
+    // Sur chaque champ, on écoute "blur" pour marquer le champ comme "touché"
+    // puis on met à jour l'état
+    fields.forEach(field => {
+      if (field.type === 'submit' || field.type === 'reset') return;
+
+      field.addEventListener('blur', () => {
+        touchedFields[field.id] = true;  // On note que ce champ a été touché
+        updateButtonsState();
+      });
+
+      // On peut écouter "input" aussi pour mettre à jour la validation "live",
+      // mais l'affichage de l'erreur ne se fera qu'après blur.
+      field.addEventListener('input', () => {
+        updateButtonsState();
+      });
+    });
+
+    // Au reset, on réinitialise
+    form.addEventListener('reset', () => {
+      // On efface les champs "touchés"
+      for (const key in touchedFields) {
+        delete touchedFields[key];
+      }
+      setTimeout(updateButtonsState, 0);
+    });
+
+    updateButtonsState();
+  });
+</script>
+
+</body>
+</html>
