@@ -1,0 +1,37 @@
+{
+  "pageLink": "http://127.0.0.1:5500/playwright-examples/formulaires/createAccount.html",
+  "testCases": [
+    {
+      "testCaseName": "Test Case 1",
+      "inputs": {
+        "firstName": "John",
+        "lastName": "Doe",
+        "country": "FR"
+      },
+      "expectations": [
+        {
+          "submit-button": "enabled"
+        },
+        {
+          "error-message": "hidden"
+        }
+      ]
+    },
+    {
+      "testCaseName": "Test Case 2",
+      "inputs": {
+        "firstName": "",
+        "lastName": "",
+        "country": ""
+      },
+      "expectations": [
+        {
+          "submit-button": "disabled"
+        },
+        {
+          "error-message": "visible"
+        }
+      ]
+    }
+  ]
+}

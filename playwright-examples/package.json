@@ -1,0 +1,20 @@
+{
+  "name": "playwright-examples",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "tests-ui": "npx playwright test --ui-port=0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.51.0",
+    "@types/node": "^22.13.10"
+  },
+  "dependencies": {
+    "playwright": "^1.51.0",
+    "randexp": "^0.5.3"
+  }
+}

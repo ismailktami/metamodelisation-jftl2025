@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liste de produits avec filtres avancés</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .filters {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .filters label {
+      display: flex;
+      flex-direction: column;
+      font-size: 14px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    input, select, button {
+      padding: 5px;
+      font-size: 14px;
+      margin: 0;
+    }
+    button {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      padding: 5px 10px;    margin-top: 15px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Liste de produits</h1>
+
+<!-- Formulaire de filtre -->
+<form id="filterForm">
+  <div class="filters">
+    <label>
+      Catégorie :
+      <select id="categoryFilter">
+        <option value="">-- Toutes --</option>
+        <option value="Électronique">Électronique</option>
+        <option value="Maison">Maison</option>
+        <option value="Jardin">Jardin</option>
+      </select>
+    </label>
+
+    <label>
+      Statut :
+      <select id="statusFilter">
+        <option value="">-- Tous --</option>
+        <option value="Disponible">Disponible</option>
+        <option value="En rupture">En rupture</option>
+      </select>
+    </label>
+
+    <label>
+      Prix min :
+      <input type="number" id="minPrice" placeholder="Min">
+    </label>
+
+    <label>
+      Prix max :
+      <input type="number" id="maxPrice" placeholder="Max">
+    </label>
+
+    <label>
+      Date min :
+      <input type="date" id="minDate">
+    </label>
+
+    <label>
+      Date max :
+      <input type="date" id="maxDate">
+    </label>
+
+    <button type="button" id="searchButton" disabled>Rechercher</button>
+    <button type="reset" id="resetButton" disabled>Réinitialiser</button>
+  </div>
+</form>
+
+<!-- Tableau de produits -->
+<table id="productTable">
+  <thead>
+    <tr>
+      <th>Nom du produit</th>
+      <th>Catégorie</th>
+      <th>Statut</th>
+      <th>Prix</th>
+      <th>Date de création</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Smartphone</td>
+      <td>Électronique</td>
+      <td>Disponible</td>
+      <td>600</td>
+      <td>2024-01-15</td>
+    </tr>
+    <tr>
+      <td>Canapé</td>
+      <td>Maison</td>
+      <td>En rupture</td>
+      <td>300</td>
+      <td>2024-01-10</td>
+    </tr>
+    <tr>
+      <td>Tondeuse</td>
+      <td>Jardin</td>
+      <td>Disponible</td>
+      <td>150</td>
+      <td>2023-12-25</td>
+    </tr>
+    <tr>
+      <td>Table</td>
+      <td>Maison</td>
+      <td>Disponible</td>
+      <td>200</td>
+      <td>2024-02-01</td>
+    </tr>
+    <tr>
+      <td>Casque Audio</td>
+      <td>Électronique</td>
+      <td>En rupture</td>
+      <td>80</td>
+      <td>2024-01-20</td>
+    </tr>
+  </tbody>
+</table>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const categoryFilter = document.getElementById("categoryFilter");
+    const statusFilter = document.getElementById("statusFilter");
+    const minPriceInput = document.getElementById("minPrice");
+    const maxPriceInput = document.getElementById("maxPrice");
+    const minDateInput = document.getElementById("minDate");
+    const maxDateInput = document.getElementById("maxDate");
+    const searchButton = document.getElementById("searchButton");
+    const resetButton = document.getElementById("resetButton");
+    const productTable = document.getElementById("productTable").querySelector("tbody");
+
+    const updateButtonsState = () => {
+      const hasFilter = categoryFilter.value || statusFilter.value ||
+                        minPriceInput.value || maxPriceInput.value ||
+                        minDateInput.value || maxDateInput.value;
+
+      searchButton.disabled = !hasFilter;
+      resetButton.disabled = !hasFilter;
+    };
+
+    const filterProducts = () => {
+      const category = categoryFilter.value;
+      const status = statusFilter.value;
+      const minPrice = parseFloat(minPriceInput.value) || 0;
+      const maxPrice = parseFloat(maxPriceInput.value) || Infinity;
+      const minDate = new Date(minDateInput.value).getTime() || 0;
+      const maxDate = new Date(maxDateInput.value).getTime() || Infinity;
+
+      Array.from(productTable.rows).forEach(row => {
+        const productCategory = row.cells[1].textContent;
+        const productStatus = row.cells[2].textContent;
+        const productPrice = parseFloat(row.cells[3].textContent);
+        const productDate = new Date(row.cells[4].textContent).getTime();
+
+        const matchesCategory = !category || productCategory === category;
+        const matchesStatus = !status || productStatus === status;
+        const matchesPrice = productPrice >= minPrice && productPrice <= maxPrice;
+        const matchesDate = productDate >= minDate && productDate <= maxDate;
+
+        row.style.display = matchesCategory && matchesStatus && matchesPrice && matchesDate ? "" : "none";
+      });
+    };
+
+    const resetFilters = () => {
+      categoryFilter.value = "";
+      statusFilter.value = "";
+      minPriceInput.value = "";
+      maxPriceInput.value = "";
+      minDateInput.value = "";
+      maxDateInput.value = "";
+      Array.from(productTable.rows).forEach(row => (row.style.display = ""));
+      updateButtonsState();
+    };
+
+    [categoryFilter, statusFilter, minPriceInput, maxPriceInput, minDateInput, maxDateInput].forEach(input => {
+      input.addEventListener("change", updateButtonsState);
+    });
+
+    searchButton.addEventListener("click", filterProducts);
+    resetButton.addEventListener("click", resetFilters);
+  });
+</script>
+
+</body>
+</html>

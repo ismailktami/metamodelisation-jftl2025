@@ -1,4 +1,4 @@
-import accountForm from "../../fixtures/accountFormWithData.json.json";
+import accountForm from "../../fixtures/accountFormWithData.json";
 
 describe("[Create Account] Dynamic Form Tests", () => {
   accountForm.testCases.forEach((testCase) => {
