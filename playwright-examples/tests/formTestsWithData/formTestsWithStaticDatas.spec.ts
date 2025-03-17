@@ -1,9 +1,12 @@
 import { test, expect } from '@playwright/test';
-import accountForm from '../fixtures/accountFormWithRegx.json';
+import accountForm from './accountFormWithStaticDatas.json';
+const checkElementState = async (element, state) => {
+  await expect(element)[state]();
+};
 
 interface TestCase {
   testCaseName: string;
-  inputs: Record<string, string | number>;
+  datas: Record<string, string | number>;
   expectations: Record<string, string>[];
 }
 
@@ -12,7 +15,7 @@ interface AccountForm {
   testCases: TestCase[];
 }
 
-const accountFormData: any = accountForm;
+const accountFormData: AccountForm = accountForm;
 
 test.describe('[Create Account] Dynamic Form Tests', () => {
   accountFormData.testCases.forEach((testCase) => {
@@ -21,7 +24,7 @@ test.describe('[Create Account] Dynamic Form Tests', () => {
       await page.goto(accountFormData.pageLink);
 
       // Remplir les champs du formulaire
-      for (const [fieldId, value] of Object.entries(testCase.inputs)) {
+      for (const [fieldId, value] of Object.entries(testCase.datas)) {
         const element = page.locator(`#${fieldId}`);
         const tagName = await element.evaluate((el) => el.tagName.toLowerCase());
 
@@ -35,25 +38,8 @@ test.describe('[Create Account] Dynamic Form Tests', () => {
       // Vérifier les attentes
       for (const expectation of testCase.expectations) {
         for (const [actionTestId, expectedState] of Object.entries(expectation)) {
-          const element = page.locator(`[data-testid="${actionTestId}"]`);
-
-          // Utiliser les assertions de Playwright
-          switch (expectedState) {
-            case 'visible':
-              await expect(element).toBeVisible();
-              break;
-            case 'hidden':
-              await expect(element).toBeHidden();
-              break;
-            case 'enabled':
-              await expect(element).toBeEnabled();
-              break;
-            case 'disabled':
-              await expect(element).toBeDisabled();
-              break;
-            default:
-              throw new Error(`État non pris en charge : ${expectedState}`);
-          }
+          var element = page.locator(`[id="${actionTestId}"]`);
+          checkElementState(element,expectedState)
         }
       }
     });

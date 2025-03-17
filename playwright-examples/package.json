@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "tests-ui": "npx playwright test --ui-port=0"
+    "test": "npx playwright test --ui-port=0"
   },
   "keywords": [],
   "author": "",

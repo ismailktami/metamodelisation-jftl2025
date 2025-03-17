@@ -1,0 +1,44 @@
+{
+    "formName": "Account Creation Form",
+    "pageLink": "http://127.0.0.1:5500/playwright-examples/formulaires/createAccount.html",
+    "fields": 
+    [
+        { "id": "firstName","label": "Nom","type": "input","required": true },
+        { "id": "lastName","label": "Prénom","type": "input","required": true },
+        { "id": "gender","label": "Genre","type": "select","required": true,"options": ["Male","Female","Other"]}  
+    ],
+    "actions": 
+    [
+        { "id": "create-account-btn","label": "Créer un compte","defaultState": "toBeDisabled"},
+        { "id": "reset-btn","label": "Réinitialiser", "defaultState": "toBeDisabled"}
+    ],
+    "testCases": [
+        { "testCaseName": "All fields empty", 
+          "datas": {}, 
+          "expectations": [{"create-account-btn": "toBeDisabled"},{"reset-btn": "toBeDisabled"}] },
+        {
+            "testCaseName": "All fields valid",
+            "datas": { "firstName": "John", "lastName": "Doe", "gender": "Male", "age": 25, "username": "johndoe", "email": "valid@example.com","password": "StrongPass1!" },
+            "expectations": [{"create-account-btn": "toBeEnabled"},{"reset-btn": "toBeEnabled"}]
+        },
+        {
+          "testCaseName": "Invalid Email",
+          "datas": { "firstName": "John", "lastName": "Doe", "gender": "Male", "age": 25, "username": "johndoe", "email": "validexample.com","password": "StrongPass1!" },
+          "expectations": [{"create-account-btn": "toBeDisabled"},{"reset-btn": "toBeEnabled"}]
+      },
+      {
+          "testCaseName": "Invalid age",
+          "datas": { "firstName": "John", "lastName": "Doe", "gender": "Male", "age": 10, "username": "johndoe", "email": "valid@example.com","password": "StrongPass1!" }, 
+          "expectations": [{"create-account-btn": "toBeDisabled"},{"reset-btn": "toBeEnabled"}] },
+      {
+          "testCaseName": "Invalid password",
+          "datas": { "firstName": "John", "lastName": "Doe", "gender": "Male", "age": 25, "username": "johndoe", "email": "validexample.com","password": "Azerty" },
+          "expectations": [{"create-account-btn": "toBeDisabled"},{"reset-btn": "toBeEnabled"}]
+      },
+      {
+          "testCaseName": "Invalid email and Valid password",
+          "datas": { "firstName": "John", "lastName": "Doe", "gender": "Male", "age": 18, "username": "johndoe", "email": "validexample.com","password": "StrongPass1!" },
+          "expectations": [{"create-account-btn": "toBeDisabled"},{"reset-btn": "toBeEnabled"}]
+      }
+    ]
+  }

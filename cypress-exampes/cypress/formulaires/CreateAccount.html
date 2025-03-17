@@ -141,7 +141,7 @@
     id="email"
     name="email"
     placeholder="Entrez une adresse e-mail valide"
-    pattern="^[a-z0-9._%+-]{1,9}@[a-z0-9-]{1,9}\\.[a-z]{2,}$"
+    pattern="^[a-z0-9._%+-]{3,10}@jftl25\\.(fr|com)$"
     required
   />
   <span class="error-msg" id="emailError">
@@ -155,7 +155,7 @@
     id="password"
     name="password"
     placeholder="Entrez un mot de passe"
-    pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[@$!%*?&#])[A-Za-z0-9@$!%*?&#]{8,}$"
+    pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[\\W_]).{8,}$"
     required
   />
   <span class="error-msg" id="passwordError">
