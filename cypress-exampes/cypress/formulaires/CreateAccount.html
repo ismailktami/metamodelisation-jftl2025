@@ -129,6 +129,7 @@
     name="username"
     placeholder="Entrez un nom d'utilisateur"
     required
+    pattern="^[A-Z][a-z]{5,30}$"
   />
   <span class="error-msg" id="usernameError">
     Veuillez entrer un nom d'utilisateur.
@@ -155,7 +156,7 @@
     id="password"
     name="password"
     placeholder="Entrez un mot de passe"
-    pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[\\W_]).{8,}$"
+    pattern="^[A-Z][a-z]{15,30}$"
     required
   />
   <span class="error-msg" id="passwordError">

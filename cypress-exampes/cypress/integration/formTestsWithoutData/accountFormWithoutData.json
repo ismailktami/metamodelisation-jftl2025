@@ -1,0 +1,30 @@
+{
+  "formName": "Create Account",
+  "formLink": "http://127.0.0.1:5500/cypress-exampes/cypress/formulaires/CreateAccount.html",
+  "fields": [
+    { "id": "firstName", "type": "input", "required": true, "regex": "^[A-Z][a-z]{2,10}$" },
+    { "id": "lastName", "type": "input", "required": true, "regex": "^[A-Z][a-z]{2,15}$" },
+    { "id": "gender", "type": "select", "required": true, "options": ["Male", "Female", "Other"] },
+    { "id": "age", "type": "number", "required": true, "min": 18, "max": 100 },
+    { "id": "email", "type": "email", "required": true, "regex": "^[a-z0-9._%+-]+@[a-z0-9-]+\\.[a-z]{2,}$" },
+    { "id": "username", "type": "input", "required": true, "regex": "^[A-Z][a-z]{5,30}$" },
+    { "id": "password", "type": "password", "required": true, "regex": "^[A-Z][a-z]{15,30}$" }
+  ],
+  "actions": [
+      { "alias": "submit", "data-testid": "create-account-btn", "label": "Créer un compte", "defaultState": "disabled" }
+    , { "alias": "reset", "data-testid": "reset-btn", "label": "Réinitialiser", "defaultState": "disabled" }
+  ],
+  "rules": [
+    {
+      "conditionType": "ALL_FIELDS_VALID",
+      "actionStates": [{"alias": "submit", "state": "enabled"},{"alias": "reset", "state": "enabled"}]},
+    {
+      "conditionType": "ANY_FIELD_INVALID",
+      "fields": ["lastName","age", "email", "password","username"],
+      "actionStates": [ {"alias": "submit", "state": "disabled"}, {"alias": "reset", "state": "enabled"} ] },
+    {
+      "conditionType": "ANY_FIELD_EMPTY",
+      "fields": ["lastName","age","email", "password"],
+      "actionStates": [ {"alias": "submit", "state": "disabled"}, {"alias": "reset", "state": "enabled"} ]}
+  ]
+}

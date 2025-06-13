@@ -6,6 +6,8 @@
   "scripts": {
     "cypress:open": "cypress open --e2e --browser chrome",
     "cypress:run": "cypress run",
+    "cypress:clear-cache": "cypress cache clear",
+    "cypress:install": "cypress install --force",
     "pretty": "prettier --write \"./**/*.{js,json}\""
   },
   "author": "",
