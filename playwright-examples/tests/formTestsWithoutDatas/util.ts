@@ -33,6 +33,9 @@ export class Util {
     if (field.type === 'number') {
       return this._generateNumber(field);
     }
+    if (field.type === 'date') {
+      return this._generateDate(field);
+    }
 
     if (field.regex) {
       return new RandExp(field.regex).gen();
@@ -87,6 +90,17 @@ export class Util {
       return Math.floor(Math.random() * (field.max - field.min + 1)) + field.min;
     }
     return Math.floor(Math.random() * 1000);
+  }
+
+  // Helpers privés // generate date with min and max
+  static _generateDate(field) {
+    if (field.min && field.max) {
+      const minDate = new Date(field.min);
+      const maxDate = new Date(field.max);
+      const randomTime = Math.random() * (maxDate.getTime() - minDate.getTime()) + minDate.getTime();
+      return new Date(randomTime).toISOString().split('T')[0];
+    }
+    return new Date().toISOString().split('T')[0]; // Default to today
   }
 
   static _getRandomOption(options) {

@@ -1,0 +1,68 @@
+{
+    "formName": "Product Filters",
+    "formLink": "http://127.0.0.1:5500/playwright-examples/formulaires/searchProduct.html",
+  
+    "fields": [
+      { "id": "categoryFilter", "type": "select", "options": ["Électronique", "Maison", "Jardin"] },
+      { "id": "statusFilter",   "type": "select", "options": ["Disponible", "En rupture"] },
+      { "id": "minPrice", "type": "number", "min": 0, "max": 10000 },
+      { "id": "maxPrice", "type": "number", "min": 0, "max": 10000 }
+    ],
+  
+    "actions": [
+      { "alias": "search", "id": "searchButton", "label": "Rechercher", "defaultState": "toBeDisabled" },
+      { "alias": "reset", "id": "resetButton", "label": "Réinitialiser", "defaultState": "toBeDisabled" }
+    ],
+  
+    "rules": [
+      {
+        "conditionType": "ALL_FIELDS_VALID",
+        "actionStates": [
+          { "alias": "search", "state": "toBeEnabled" },
+          { "alias": "reset", "state": "toBeEnabled" }
+        ]
+      },
+      {
+        "conditionType": "ANY_FIELD_EMPTY",
+        "fields": ["categoryFilter", "statusFilter", "minPrice", "maxPrice"],
+        "actionStates": [
+          { "alias": "search", "state": "toBeEnabled" },
+          { "alias": "reset", "state": "toBeEnabled" }
+        ]
+      },
+      {
+        "conditionType": "ANY_FIELDS_VALID",
+        "fields": ["categoryFilter", "statusFilter", "minPrice", "maxPrice"],
+        "actionStates": [
+          { "alias": "search", "state": "toBeEnabled" },
+          { "alias": "reset", "state": "toBeEnabled" }
+        ]
+      },
+      {
+        "conditionType": "ANY_FIELDS_VALID",
+        "fields": ["minPrice", "maxPrice"],
+        "actionStates": [
+          { "alias": "search", "state": "toBeDisabled" },
+          { "alias": "reset", "state": "toBeEnabled" }
+        ]
+      },
+      {
+        "conditionType": "ALL_FIELDS_INVALID",
+        "actionStates": [
+          { "alias": "search", "state": "toBeDisabled" },
+          { "alias": "reset", "state": "toBeEnabled" }
+        ]
+      },
+      {
+        "conditionType": "SPECIFIED_FIELDS_VALID",
+        "values": [
+          { "categoryFilter": "Électronique", "statusFilter": "Disponible", "minPrice": 100, "maxPrice": 500 }
+        ],
+        "actionStates": [
+          { "alias": "search", "state": "toBeEnabled" },
+          { "alias": "reset", "state": "toBeEnabled" }
+        ]
+      }
+    ]
+  }
+  

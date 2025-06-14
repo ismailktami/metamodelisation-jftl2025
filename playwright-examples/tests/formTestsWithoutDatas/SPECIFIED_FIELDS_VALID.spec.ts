@@ -3,11 +3,11 @@ import { Util } from './util.js';
 const formConfigs = Util.loadJsonFiles('datas');
 
 formConfigs.forEach(formConfig => {
-  for (const rule of formConfig.rules.filter(rule => rule.conditionType === 'SPECIFIC_FIELD_VALID')) {
+  for (const rule of formConfig.rules.filter(rule => rule.conditionType === 'SPECIFIED_FIELDS_VALID')) {
     for (const item of rule.values) {
       const actionsTitle = rule.actionStates.map(a => `${a.alias.toUpperCase()} should be ${a.state.replace('toBe', '').toLowerCase()}`).join(', ');
       for (const [key, value] of Object.entries(item)) {
-        test(`[${formConfig.formName}][SPECIFIC_FIELD_VALID ${key.toUpperCase()}] ${actionsTitle}`, async ({ page }) => {
+        test(`[${formConfig.formName}][SPECIFIED_FIELDS_VALID ${key.toUpperCase()}] ${actionsTitle}`, async ({ page }) => {
           await page.goto(formConfig.formLink);
           let inputs = {};
           for (const field of formConfig.fields) {
