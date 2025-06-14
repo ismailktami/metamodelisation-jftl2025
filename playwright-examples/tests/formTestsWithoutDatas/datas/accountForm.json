@@ -1,5 +1,5 @@
 {
-  "formName": "Search Product",
+  "formName": "Create Account",
   "formLink": "http://127.0.0.1:5500/playwright-examples/formulaires/createAccount.html",
   "fields": [
     { "id": "firstName", "type": "input", "required": true, "regex": "^[A-Z][a-z]{2,10}$" },
@@ -20,8 +20,12 @@
       "actionStates": [{"alias": "submit", "state": "toBeEnabled"},{"alias": "reset", "state": "toBeEnabled"}]
     },
     {
+      "conditionType": "NONE_FIELDS_VALID",
+      "actionStates": [{"alias": "submit", "state": "toBeDisabled"},{"alias": "reset", "state": "toBeEnabled"}]
+    },
+    {
       "conditionType": "ALL_FIELDS_INVALID",
-      "actionStates": [{"alias": "submit", "state": "toBeEnabled"},{"alias": "reset", "state": "toBeEnabled"}]
+      "actionStates": [{"alias": "submit", "state": "toBeDisabled"},{"alias": "reset", "state": "toBeEnabled"}]
     },
     {
       "conditionType": "ANY_FIELD_INVALID",

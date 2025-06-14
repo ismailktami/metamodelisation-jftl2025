@@ -35,28 +35,22 @@ public class DynamicTests {
         }
     }
 
-    /* ================  TESTS JUnit 5 dynamiques  ================= */
-
     @TestFactory
     Collection<DynamicTest> dynamicTestsFromJson() throws Exception {
 
         // 1) Lecture du fichier
         ObjectMapper mapper = new ObjectMapper();
         TestData testData = mapper.readValue(
-                new File("resources/accountFormWithStaticDatas.json"), TestData.class
-        );
+                new File("resources/accountFormWithStaticDatas.json"), TestData.class);
 
         // 2) Génération des tests
         return testData.getTestCases()
                 .stream()
                 .map(tc -> DynamicTest.dynamicTest(
                         tc.getTestCaseName(),
-                        () -> runTest(testData.getPageLink(), tc)
-                ))
+                        () -> runTest(testData.getPageLink(), tc)))
                 .collect(Collectors.toList());
     }
-
-    /* ================  EXÉCUTION D’UN CAS ================= */
 
     private void runTest(String pageLink, TestData.TestCase tc) {
 
@@ -113,7 +107,7 @@ public class DynamicTests {
         return String.format("« %s » %s", id, txt);
     }
 
-    /* ================  POJOs POUR JACKSON ================= */
+    /* ================ POJOs POUR JACKSON ================= */
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class TestData {
@@ -124,8 +118,13 @@ public class DynamicTests {
         private List<TestCase> testCases;
 
         /* ---- Getters / setters ---- */
-        public String getPageLink() { return pageLink; }
-        public List<TestCase> getTestCases() { return testCases; }
+        public String getPageLink() {
+            return pageLink;
+        }
+
+        public List<TestCase> getTestCases() {
+            return testCases;
+        }
 
         /* ---- Sous-objets ---- */
         @JsonIgnoreProperties(ignoreUnknown = true)
@@ -146,9 +145,17 @@ public class DynamicTests {
             private Map<String, Object> datas;
             private List<Map<String, String>> expectations;
 
-            public String getTestCaseName() { return testCaseName; }
-            public Map<String, Object> getDatas() { return datas == null ? Collections.emptyMap() : datas; }
-            public List<Map<String, String>> getExpectations() { return expectations == null ? Collections.emptyList() : expectations; }
+            public String getTestCaseName() {
+                return testCaseName;
+            }
+
+            public Map<String, Object> getDatas() {
+                return datas == null ? Collections.emptyMap() : datas;
+            }
+
+            public List<Map<String, String>> getExpectations() {
+                return expectations == null ? Collections.emptyList() : expectations;
+            }
         }
     }
 }
