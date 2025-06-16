@@ -1,4 +1,4 @@
-import formConfig from './accountFormWithoutData.json';
+import formConfig from './accountFormWithoutDatas.json';
 import RandExp from 'randexp';
 
 function generateValidInput(field) {

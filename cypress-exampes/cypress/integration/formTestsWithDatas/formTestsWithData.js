@@ -1,4 +1,4 @@
-import accountForm from "./accountFormWithData.json";
+import accountForm from "./accountFormWithDatas.json";
 
 describe("[Create Account] Dynamic Form Tests", () => {
   accountForm.testCases.forEach((testCase) => {

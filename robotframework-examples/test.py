@@ -58,7 +58,6 @@ def build_suite_from_json(json_file: Path) -> TestSuite:
                 # Essayons d'abord id, puis data-testid
                 sel_id = f"id={action_id}"
                 sel_testid = f'css:[data-testid="{action_id}"]'
-
                 kw = {
                     "Enabled":  "Element Should Be Enabled",
                     "Disabled": "Element Should Be Disabled",
