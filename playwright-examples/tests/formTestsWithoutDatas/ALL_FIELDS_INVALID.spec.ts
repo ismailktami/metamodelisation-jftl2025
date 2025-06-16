@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { Util } from './util.js';
 const formConfigs = Util.loadJsonFiles('datas');
+
 formConfigs.forEach(formConfig => {
   for (const rule of formConfig.rules.filter(rule => rule.conditionType === 'ALL_FIELDS_INVALID')) {
     const actionsTitle = rule.actionStates.map(a => `${a.alias.toUpperCase()} should be ${a.state.replace('toBe', '').toLowerCase()}`).join(', ');

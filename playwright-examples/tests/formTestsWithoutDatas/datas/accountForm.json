@@ -29,11 +29,15 @@
     },
     {
       "conditionType": "ANY_FIELD_INVALID",
-      "fields": ["lastName","age", "email", "password"],
-      "actionStates": [ {"alias": "submit", "state": "toBeDisabled"}, {"alias": "reset", "state": "toBeEnabled"} ] },
+      "fields": ["lastName","age", "email"],
+      "actionStates": [ 
+        {"alias": "submit", "state": "toBeDisabled"},
+        {"alias": "reset", "state": "toBeEnabled"} 
+      ] 
+  },
     {
       "conditionType": "ANY_FIELD_EMPTY",
-      "fields": ["lastName","age","email", "password","username"],
+      "fields": ["lastName","age","email", "password"],
       "actionStates": [ {"alias": "submit", "state": "toBeDisabled"}, {"alias": "reset", "state": "toBeEnabled"} ]
     },
     {

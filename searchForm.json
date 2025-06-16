@@ -8,7 +8,6 @@
       { "id": "minPrice", "type": "number", "min": 0, "max": 10000 },
       { "id": "maxPrice", "type": "number", "min": 0, "max": 10000 }
     ],
-  
     "actions": [
       { "alias": "search", "id": "searchButton", "label": "Rechercher", "defaultState": "toBeDisabled" },
       { "alias": "reset", "id": "resetButton", "label": "Réinitialiser", "defaultState": "toBeDisabled" }
