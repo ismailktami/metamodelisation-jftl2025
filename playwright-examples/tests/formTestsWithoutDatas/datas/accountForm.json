@@ -8,6 +8,7 @@
     { "id": "age", "type": "number", "required": true, "min": 18, "max": 100 },
     { "id": "username", "type": "input", "required": true, "regex": "^[A-Z][a-z]{2,30}$" },
     { "id": "email", "type": "email", "required": true, "regex": "^[a-z0-9._%+-]{3,10}@jftl25\\.(fr|com)$" },
+    { "id": "phone", "type": "tel", "required": true, "regex": "^\\+33[1-9][0-9]{8}$" },
     { "id": "password", "type": "password", "required": true, "regex": "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[\\W_]).{8,}$" }
   ],
   "actions": [
@@ -29,7 +30,7 @@
     },
     {
       "conditionType": "ANY_FIELD_INVALID",
-      "fields": ["lastName","age", "email"],
+      "fields": ["lastName","age", "email","phone"],
       "actionStates": [ 
         {"alias": "submit", "state": "toBeDisabled"},
         {"alias": "reset", "state": "toBeEnabled"} 
@@ -37,7 +38,7 @@
   },
     {
       "conditionType": "ANY_FIELD_EMPTY",
-      "fields": ["lastName","age","email", "password"],
+      "fields": ["lastName","age","email"],
       "actionStates": [ {"alias": "submit", "state": "toBeDisabled"}, {"alias": "reset", "state": "toBeEnabled"} ]
     },
     {
